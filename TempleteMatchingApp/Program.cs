@@ -1,4 +1,5 @@
-﻿using OpenCvSharp;
+﻿using DSLab;
+using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -84,7 +85,31 @@ namespace TempleteMatchingApp
 
         static void SelectDeviceId()
         {
+            var category = new Guid(GUID.CLSID_VideoInputDeviceCategory);
+            var filterInfos = Axi.GetFilterList(category);
 
+            Console.WriteLine("Video Input Devices ({0})", filterInfos.Count);
+            for (var i = 0; i < filterInfos.Count; i++)
+            {
+                // フィルタ情報:
+                var filterInfo = filterInfos[i];
+                //Console.WriteLine("|- {0}", iii);
+                //Console.WriteLine("|  |- {0}", filterInfo.Name);
+                Console.WriteLine($"[{i}] {filterInfo.Name}");
+            }
+
+            Console.Write("Please select device number:");
+
+            try
+            {
+                int id = int.Parse(Console.ReadLine());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error. Please correct device id.");
+                Console.WriteLine(ex.ToString());
+            }
+            
         }
 
         static void Init()
@@ -166,15 +191,17 @@ namespace TempleteMatchingApp
 
         static void Matching(Mat mat)
         {
-            using (var target = InRange4DetailResult(mat))
+            using (var target = InRange4ResultFailure(mat))
+            //using (var target = InRange4ResultSuccess(mat))
+            //using (var target = InRange4DetailResult(mat))
             {
                 Composer c = new Composer(target, templete);
                 var result = c.Compose();
 
-                Console.WriteLine($"Frame[{frame_count:000000}] Matched[{result}]");
+                Console.WriteLine($"Frame[{frame_count:00000000}] Matched[{result}]");
                 if (result)
                 {
-                    var name = $@"{MATCHED_IMAGES}\{frame_count:000000}.bmp";
+                    var name = $@"{MATCHED_IMAGES}\{frame_count:00000000}.bmp";
                     mat.ImWrite(name);
 
                     if (mode == ProcModes.CaptureDevice)
@@ -190,8 +217,8 @@ namespace TempleteMatchingApp
         {
             Mat result = new Mat();
 
-            var rect = new Rect(new Point(0, 0), target.Size());
-            //var rect = new Rect(new Point(1035, 185), new Size(75, 712)); // 高速化のため矢印部分だけカット
+            //var rect = new Rect(new Point(0, 0), target.Size());
+            var rect = new Rect(new Point(1035, 185), new Size(75, 712)); // 高速化のため矢印部分だけカット
 
             // 緑っぽいの(RGB=14/255/101)の画素範囲(個人の結果が書かれてるシーンの矢印検出用)
             Scalar scalar_low = new Scalar(50, 245, 0); // B,G,R いっつも忘れる
@@ -203,11 +230,10 @@ namespace TempleteMatchingApp
                 Cv2.InRange(arrow_area, scalar_low, scalar_high, result);
             }
 
-
             return result;
         }
 
-        static Mat Inrange4Result(Mat target)
+        static Mat InRange4ResultSuccess(Mat target)
         {
             Mat result = new Mat();
 
@@ -224,6 +250,25 @@ namespace TempleteMatchingApp
                 Cv2.InRange(result_area, scalar_low, scalar_high, result);
             }
 
+            return result;
+        }
+
+        static Mat InRange4ResultFailure(Mat target)
+        {
+            Mat result = new Mat();
+
+            //var rect = new Rect(new Point(0, 0), target.Size());
+            var rect = new Rect(new Point(30, 68), new Size(219, 64)); // 高速化のため矢印部分だけカット
+
+            // オレンジっぽいの(RGB=246/96/65)の画素範囲(個人の結果が書かれてるシーンの矢印検出用)
+            Scalar scalar_low = new Scalar(50, 80, 220); // B,G,R いっつも忘れる
+            Scalar scalar_high = new Scalar(70, 105, 255);
+
+            using (var result_area = new Mat(target, rect))
+            {
+                //Cv2.InRange(color, scalar_low, scalar_high, yellow);
+                Cv2.InRange(result_area, scalar_low, scalar_high, result);
+            }
 
             return result;
         }
