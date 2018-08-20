@@ -16,14 +16,16 @@ namespace knn_t
             //Capture.exec();
             //ConvImg.ConvertColor2Gray();
             //ConvImg2.ConvertColor2Gray();
-            ConvImg3.ConvertColor2Gray();
+            //ConvImg3.ConvertColor2Gray();
             //Mask.exec();
             //Mask2.exec();
             //RecognitionFromMovie.exec();
             //Histogram.exec2();
-            //Contour.exec();
+            //Histogram2.exec();
             //ContainsImage.exec();
             //TemplateMatching.exec();
+            //NumberExtracting.Exec();
+            NumberContours.Exec();
         }
     }
 }

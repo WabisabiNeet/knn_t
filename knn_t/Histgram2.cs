@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace knn_t
 {
-    class Contour
+    class Histgram2
     {
         public static void exec()
         {

@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;LANG_JP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -58,12 +58,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContainsImage.cs" />
-    <Compile Include="Contour.cs" />
+    <Compile Include="Histgram2.cs" />
     <Compile Include="ConvImg4.cs" />
     <Compile Include="ConvImg3.cs" />
     <Compile Include="ConvImg2.cs" />
     <Compile Include="ConvImg.cs" />
     <Compile Include="Histogram.cs" />
+    <Compile Include="NumberContours.cs" />
+    <Compile Include="NumberExtracting.cs" />
     <Compile Include="Mask2.cs" />
     <Compile Include="Mask.cs" />
     <Compile Include="Program.cs" />
