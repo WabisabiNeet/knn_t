@@ -16,21 +16,21 @@ namespace knn_t
             foreach (var f in Directory.EnumerateFiles(@"C:\tagwork\test\salmon_testdata\result\Extracted\"))
             {
                 using (var gray = new Mat(f, ImreadModes.GrayScale))
-                using (var gray_negaposi = new Mat())
+                using (var gray2 = gray.Clone())
                 {
-                    Cv2.Threshold(gray, gray, 245, 255, ThresholdTypes.Binary);
-                    //Cv2.BitwiseNot(gray, gray_negaposi);
+                    var contours = Cv2.FindContoursAsArray(gray2, RetrievalModes.External, ContourApproximationModes.ApproxNone);
+                    Console.WriteLine($"{f}:{contours.Length:00}");
 
-                    var points = Cv2.FindContoursAsArray(gray, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
-                    for (int i = 0; i < points.Length; i++)
+                    foreach (var points in contours)
                     {
-                        gray.DrawContours(points, i, new Scalar(255, 255, 255), 5);
+                        var minPoint = new Point(points.Select(p => p.X).Min(), points.Select(p => p.Y).Min());
+                        var maxPoint = new Point(points.Select(p => p.X).Max(), points.Select(p => p.Y).Max());
+
+                        //gray.Rectangle(minPoint, maxPoint, new Scalar(255));
+                        var rect = new Rect(minPoint.X, minPoint.Y, maxPoint.X - minPoint.X, maxPoint.Y - minPoint.Y);
+                        var numImg = new Mat(gray, rect);
+                        Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\Numbers\{Path.GetRandomFileName()}.bmp", numImg);
                     }
-
-                    Cv2.ImShow("testttttttttttttttttttt", gray);
-                    //Cv2.ImShow("gray_negaposiiiiiiiiiiiiiiiii", gray_negaposi);
-
-                    break;
                 }
             }
 

@@ -64,10 +64,15 @@ namespace knn_t
                 Cv2.Threshold(img_rescues, img_binary_rescues, 245, 255, ThresholdTypes.Binary);
                 Cv2.Threshold(img_rescued, img_binary_rescured, 245, 255, ThresholdTypes.Binary);
 
+                //Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_ikura_gold);
+                //Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_ikura_red);
+                //Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_rescues);
+                //Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_rescued);
+
                 Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_binary_ikura_gold);
-                Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_ikura_red);
-                Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_rescues);
-                Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_rescued);
+                Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_binary_ikura_red);
+                Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_binary_rescues);
+                Cv2.ImWrite($@"C:\tagwork\test\salmon_testdata\result\Extracted\{Path.GetRandomFileName()}.bmp", img_binary_rescured);
             }
 
         }
